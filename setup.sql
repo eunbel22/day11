@@ -3,8 +3,10 @@ create table if not exists applications (
   id bigint generated always as identity primary key,
   name text not null,
   contact text not null,
-  subject text not null,
-  motivation text,
+  beginner text not null,
+  certification text not null,
+  level text not null,
+  notes text,
   created_at timestamptz not null default now()
 );
 alter table applications enable row level security;

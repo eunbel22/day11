@@ -32,22 +32,35 @@
 </style>
 </head>
 <body>
-<h1>선생님 신청하기</h1>
-<p class="lead">지도 가능한 과목과 연락처를 남겨주시면, 매칭 안내를 드립니다.</p>
+<h1>오후 테니스 수업 강사 신청</h1>
+<p class="lead">테니스 지도 경험과 가능한 시간을 알려주세요.</p>
 <div class="card">
 <form id="f">
   <label for="name">이름</label>
   <input id="name" name="name" type="text" required maxlength="40">
   <label for="contact">연락처 <span class="opt">(이메일 또는 전화번호)</span></label>
   <input id="contact" name="contact" type="text" required maxlength="60">
-  <label for="subject">지도 가능 과목</label>
-  <select id="subject" name="subject">
-    <option value="basic">컴퓨터 기초</option>
-    <option value="coding">코딩 실습</option>
-    <option value="digital-literacy">디지털 리터러시</option>
+  <label for="beginner">초급자 지도 가능 여부</label>
+  <select id="beginner" name="beginner" required>
+    <option value="">선택해주세요</option>
+    <option value="yes">예, 가능합니다</option>
+    <option value="no">아니오</option>
   </select>
-  <label for="motivation">지원 동기 <span class="opt">(선택)</span></label>
-  <textarea id="motivation" name="motivation" rows="3" maxlength="300"></textarea>
+  <label for="certification">테니스 코치 자격증</label>
+  <select id="certification" name="certification" required>
+    <option value="">선택해주세요</option>
+    <option value="yes">보유하고 있습니다</option>
+    <option value="no">보유하지 않습니다</option>
+  </select>
+  <label for="level">지도 가능 수준</label>
+  <select id="level" name="level" required>
+    <option value="">선택해주세요</option>
+    <option value="beginner">초급자만</option>
+    <option value="beginner-intermediate">초급~중급</option>
+    <option value="all">모든 수준</option>
+  </select>
+  <label for="notes">추가 정보 <span class="opt">(선택)</span></label>
+  <textarea id="notes" name="notes" rows="3" maxlength="300"></textarea>
   <button type="submit">신청서 제출하기</button>
 </form>
 <p id="done">신청서가 접수됐습니다. 감사합니다.</p>
@@ -59,8 +72,10 @@ document.getElementById("f").addEventListener("submit", async (e) => {
   const body = {
     name: document.getElementById("name").value,
     contact: document.getElementById("contact").value,
-    subject: document.getElementById("subject").value,
-    motivation: document.getElementById("motivation").value
+    beginner: document.getElementById("beginner").value,
+    certification: document.getElementById("certification").value,
+    level: document.getElementById("level").value,
+    notes: document.getElementById("notes").value
   };
   button.disabled = true;
   try {
