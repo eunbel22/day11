@@ -7,8 +7,8 @@ export default async function handler(req, res) {
 
   if (req.method !== "POST") return res.status(405).json({ error: "POST만 받습니다" });
 
-  const { name, contact, beginner, certification, level, notes } = req.body || {};
-  if (!name || !contact || !beginner || !certification || !level) {
+  const { name, contact, experience, region, beginner, certification, level, lesson_type, time_preference, additional_qualification, notes } = req.body || {};
+  if (!name || !contact || !experience || !region || !beginner || !certification || !level || !lesson_type || !time_preference) {
     console.log(JSON.stringify({ event: "submit", ok: false, duration_ms: Date.now() - t0 }));
     return res.status(400).json({ error: "필수 항목을 모두 입력해주세요" });
   }
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
   const { error } = await supabase
     .from("applications")
-    .insert({ name, contact, beginner, certification, level, notes: notes || null });
+    .insert({ name, contact, experience, region, beginner, certification, level, lesson_type, time_preference, additional_qualification: additional_qualification || null, notes: notes || null });
 
   if (error) {
     console.log(JSON.stringify({ event: "submit", ok: false, duration_ms: Date.now() - t0 }));

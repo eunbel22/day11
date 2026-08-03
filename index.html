@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>선생님 신청하기 - Day11</title>
+<title>오후 테니스 수업 강사 신청 - Day11</title>
 <style>
   :root {
     --ink: #183027;
@@ -14,69 +14,470 @@
     --green: #257357;
     --green-soft: #dff0e7;
     --orange: #dd7b35;
+    --orange-soft: #f5e6d3;
   }
   * { box-sizing: border-box; }
-  body { font-family: "Apple SD Gothic Neo", Pretendard, sans-serif; color: var(--ink); background: var(--paper); max-width: 480px; margin: 40px auto; padding: 0 16px; }
-  h1 { font-size: 22px; margin: 0 0 4px; }
-  p.lead { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; box-shadow: 0 8px 25px rgba(24,48,39,.06); }
-  label { display: block; margin: 14px 0 4px; font-weight: 700; font-size: 14px; }
+  body { font-family: "Apple SD Gothic Neo", Pretendard, sans-serif; color: var(--ink); background: var(--paper); margin: 0; padding: 0; }
+
+  .container { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+  /* 헤더 배너 */
+  .banner {
+    background: linear-gradient(135deg, var(--orange) 0%, var(--green) 100%);
+    color: white;
+    padding: 60px 16px;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .banner h1 { font-size: 32px; margin: 0 0 12px; font-weight: 800; }
+  .banner p { font-size: 16px; margin: 0; opacity: 0.95; }
+
+  /* 특징 섹션 */
+  .features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .feature-card {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(24,48,39,.12);
+    border-color: var(--orange);
+  }
+  .feature-icon { font-size: 32px; margin-bottom: 8px; }
+  .feature-card h3 { font-size: 14px; margin: 8px 0; color: var(--ink); font-weight: 700; }
+  .feature-card p { font-size: 12px; color: var(--muted); margin: 0; }
+
+  /* 신청 폼 섹션 */
+  .form-section {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 8px 25px rgba(24,48,39,.06);
+    margin-bottom: 40px;
+  }
+  .form-section h2 { font-size: 24px; margin: 0 0 8px; color: var(--ink); }
+  .form-section > p { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-row.full { grid-template-columns: 1fr; }
+
+  label { display: block; margin: 0 0 6px; font-weight: 700; font-size: 14px; color: var(--ink); }
   label .opt { font-weight: 400; color: var(--muted); font-size: 12px; }
-  input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #bfc9bf; border-radius: 8px; font-size: 15px; background: #fff; color: var(--ink); font-family: inherit; }
-  textarea { resize: vertical; }
-  input:focus, select:focus, textarea:focus { outline: 3px solid var(--green-soft); border-color: var(--green); }
-  button { margin-top: 18px; width: 100%; padding: 12px 22px; background: var(--orange); color: #fff; border: 0; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; }
-  button:hover { filter: brightness(.96); }
-  button:disabled { opacity: .55; cursor: wait; }
-  #done { display: none; color: var(--green); font-weight: 700; margin-top: 14px; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 15px;
+    background: white;
+    color: var(--ink);
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px var(--orange-soft);
+  }
+  textarea { resize: vertical; min-height: 80px; }
+
+  .checkbox-group, .radio-group {
+    display: grid;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .checkbox-item, .radio-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .checkbox-item:hover, .radio-item:hover {
+    background: var(--green-soft);
+    border-color: var(--green);
+  }
+  input[type="checkbox"], input[type="radio"] {
+    width: auto;
+    margin-right: 10px;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--orange) 0%, #c66a28 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 24px;
+  }
+  .submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(221,123,53,.3);
+  }
+  .submit-btn:disabled { opacity: 0.6; cursor: wait; }
+
+  #done {
+    display: none;
+    background: var(--green-soft);
+    border: 2px solid var(--green);
+    color: var(--green);
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+    margin-top: 16px;
+  }
+
+  /* FAQ 섹션 */
+  .faq-section {
+    margin-bottom: 40px;
+  }
+  .faq-section h2 { font-size: 24px; margin: 0 0 24px; color: var(--ink); }
+
+  .faq-item {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .faq-question {
+    padding: 16px;
+    background: var(--panel);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    transition: background 0.2s;
+  }
+  .faq-question:hover { background: var(--orange-soft); }
+  .faq-toggle { font-size: 20px; }
+  .faq-answer {
+    display: none;
+    padding: 16px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .faq-item.active .faq-answer { display: block; }
+  .faq-item.active .faq-toggle { transform: rotate(180deg); }
+
+  /* 연락처 섹션 */
+  .contact-section {
+    background: linear-gradient(135deg, var(--green) 0%, var(--orange) 100%);
+    color: white;
+    padding: 32px 16px;
+    border-radius: 14px;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .contact-section h2 { margin: 0 0 16px; font-size: 24px; }
+  .contact-section p { margin: 8px 0; opacity: 0.95; }
+
+  /* 풋터 */
+  footer {
+    background: var(--ink);
+    color: white;
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 480px) {
+    .form-row { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; }
+    .banner h1 { font-size: 24px; }
+  }
 </style>
 </head>
 <body>
-<h1>오후 테니스 수업 강사 신청</h1>
-<p class="lead">테니스 지도 경험과 가능한 시간을 알려주세요.</p>
-<div class="card">
-<form id="f">
-  <label for="name">이름</label>
-  <input id="name" name="name" type="text" required maxlength="40">
-  <label for="contact">연락처 <span class="opt">(이메일 또는 전화번호)</span></label>
-  <input id="contact" name="contact" type="text" required maxlength="60">
-  <label for="beginner">초급자 지도 가능 여부</label>
-  <select id="beginner" name="beginner" required>
-    <option value="">선택해주세요</option>
-    <option value="yes">예, 가능합니다</option>
-    <option value="no">아니오</option>
-  </select>
-  <label for="certification">테니스 코치 자격증</label>
-  <select id="certification" name="certification" required>
-    <option value="">선택해주세요</option>
-    <option value="yes">보유하고 있습니다</option>
-    <option value="no">보유하지 않습니다</option>
-  </select>
-  <label for="level">지도 가능 수준</label>
-  <select id="level" name="level" required>
-    <option value="">선택해주세요</option>
-    <option value="beginner">초급자만</option>
-    <option value="beginner-intermediate">초급~중급</option>
-    <option value="all">모든 수준</option>
-  </select>
-  <label for="notes">추가 정보 <span class="opt">(선택)</span></label>
-  <textarea id="notes" name="notes" rows="3" maxlength="300"></textarea>
-  <button type="submit">신청서 제출하기</button>
-</form>
-<p id="done">신청서가 접수됐습니다. 감사합니다.</p>
+
+<!-- 헤더 배너 -->
+<div class="banner">
+  <div class="container">
+    <h1>🎾 오후 테니스 수업 강사 신청</h1>
+    <p>함께 성장하고 즐거운 테니스 레슨을 만들어갈 강사님을 찾고 있습니다</p>
+  </div>
 </div>
+
+<!-- 특징 섹션 -->
+<div class="container">
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">📚</div>
+      <h3>전문성</h3>
+      <p>체계적인 테니스 교육</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👥</div>
+      <h3>맞춤 수업</h3>
+      <p>초급부터 고급까지</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⏰</div>
+      <h3>유연한 시간</h3>
+      <p>선호 시간대 선택</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌟</div>
+      <h3>함께 성장</h3>
+      <p>학생과 함께 발전</p>
+    </div>
+  </div>
+
+  <!-- 신청 폼 -->
+  <div class="form-section">
+    <h2>신청 정보</h2>
+    <p>기본 정보와 경력을 알려주세요</p>
+
+    <form id="f">
+      <!-- 기본 정보 -->
+      <div class="form-row full">
+        <label for="name">이름 <span class="opt">*필수</span></label>
+        <input id="name" name="name" type="text" required maxlength="40" placeholder="홍길동">
+      </div>
+
+      <div class="form-row full">
+        <label for="contact">연락처 <span class="opt">*필수 (이메일 또는 전화번호)</span></label>
+        <input id="contact" name="contact" type="text" required maxlength="60" placeholder="example@email.com 또는 010-0000-0000">
+      </div>
+
+      <!-- 경력 정보 -->
+      <div class="form-row">
+        <div>
+          <label for="experience">경력 연수 <span class="opt">*필수</span></label>
+          <input id="experience" name="experience" type="number" required min="0" max="60" placeholder="5">
+        </div>
+        <div>
+          <label for="region">수업 가능 지역 <span class="opt">*필수</span></label>
+          <select id="region" name="region" required>
+            <option value="">선택해주세요</option>
+            <option value="gangnam">강남</option>
+            <option value="gangbuk">강북</option>
+            <option value="songpa">송파</option>
+            <option value="gwangju">광주</option>
+            <option value="busan">부산</option>
+            <option value="online">온라인</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 자격 사항 -->
+      <div class="form-row">
+        <div>
+          <label for="beginner">초급자 지도 가능 <span class="opt">*필수</span></label>
+          <select id="beginner" name="beginner" required>
+            <option value="">선택해주세요</option>
+            <option value="yes">예, 가능합니다</option>
+            <option value="no">아니오</option>
+          </select>
+        </div>
+        <div>
+          <label for="certification">테니스 코치 자격증 <span class="opt">*필수</span></label>
+          <select id="certification" name="certification" required>
+            <option value="">선택해주세요</option>
+            <option value="yes">보유하고 있습니다</option>
+            <option value="no">보유하지 않습니다</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <label for="level">지도 가능 수준 <span class="opt">*필수</span></label>
+        <select id="level" name="level" required>
+          <option value="">선택해주세요</option>
+          <option value="beginner">초급자만</option>
+          <option value="beginner-intermediate">초급~중급</option>
+          <option value="all">모든 수준</option>
+        </select>
+      </div>
+
+      <!-- 수업 형태 -->
+      <div class="form-row full">
+        <label>수업 가능 형태 <span class="opt">*필수 (중복 선택 가능)</span></label>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" name="lesson_type" value="individual">
+            개인 레슨
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="lesson_type" value="group">
+            그룹 수업
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="lesson_type" value="team">
+            팀 트레이닝
+          </label>
+        </div>
+      </div>
+
+      <!-- 선호 시간대 -->
+      <div class="form-row full">
+        <label for="time_preference">선호 시간대 <span class="opt">*필수</span></label>
+        <select id="time_preference" name="time_preference" required>
+          <option value="">선택해주세요</option>
+          <option value="morning">오전 (06:00~12:00)</option>
+          <option value="afternoon">오후 (12:00~18:00)</option>
+          <option value="evening">저녁 (18:00~22:00)</option>
+          <option value="flexible">유연함</option>
+        </select>
+      </div>
+
+      <!-- 추가 자격사항 -->
+      <div class="form-row full">
+        <label for="additional_qualification">추가 자격사항 <span class="opt">(선택)</span></label>
+        <textarea id="additional_qualification" name="additional_qualification" maxlength="300" placeholder="예: 운동생리학 전공, 재활 경험, 다른 스포츠 경력 등"></textarea>
+      </div>
+
+      <!-- 추가 정보 -->
+      <div class="form-row full">
+        <label for="notes">추가 정보 <span class="opt">(선택)</span></label>
+        <textarea id="notes" name="notes" maxlength="300" placeholder="강조하고 싶은 점이나 특별한 사항이 있으신가요?"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">✨ 신청서 제출하기</button>
+    </form>
+
+    <div id="done">✅ 신청서가 접수됐습니다. 감사합니다!</div>
+  </div>
+
+  <!-- FAQ 섹션 -->
+  <div class="faq-section">
+    <h2>자주 묻는 질문</h2>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>어떤 자격이 필요한가요?</span>
+        <span class="faq-toggle">▼</span>
+      </div>
+      <div class="faq-answer">
+        기본적으로 테니스에 대한 열정과 학생을 지도할 의지가 있으면 좋습니다. 자격증이 있으면 우대하지만, 충분한 경력이 있다면 고려할 수 있습니다.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>수업료는 어떻게 되나요?</span>
+        <span class="faq-toggle">▼</span>
+      </div>
+      <div class="faq-answer">
+        수업료는 경력, 자격사항, 지역 등을 고려하여 협의합니다. 상세한 조건은 1차 면접 시 논의하게 됩니다.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>초급자를 지도해본 적이 없어도 괜찮을까요?</span>
+        <span class="faq-toggle">▼</span>
+      </div>
+      <div class="faq-answer">
+        물론입니다! 초급자 지도 경험이 없어도 지도 의욕과 기본기가 탄탄하다면 충분합니다. 저희가 필요한 지원을 제공합니다.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>언제부터 시작할 수 있나요?</span>
+        <span class="faq-toggle">▼</span>
+      </div>
+      <div class="faq-answer">
+        신청서 접수 후 면접 및 선발 과정을 거쳐 결정됩니다. 일반적으로 2주 이내에 연락드립니다.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>여러 시간대에 수업할 수 있나요?</span>
+        <span class="faq-toggle">▼</span>
+      </div>
+      <div class="faq-answer">
+        네, 가능합니다! 신청서에 선호 시간대를 입력해주면, 스케줄 조율을 통해 적절한 시간대를 배정해드립니다.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>온라인 수업도 가능한가요?</span>
+        <span class="faq-toggle">▼</span>
+      </div>
+      <div class="faq-answer">
+        현재는 대면 수업을 중심으로 운영하고 있습니다만, 특별한 경우 온라인 수업도 논의 가능합니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- 연락처 섹션 -->
+  <div class="contact-section">
+    <h2>더 알고 싶으신가요?</h2>
+    <p>📧 이메일: contact@tennisclass.com</p>
+    <p>📱 전화: 02-1234-5678</p>
+    <p>⏰ 상담 가능 시간: 월~금 10:00~18:00</p>
+  </div>
+</div>
+
+<!-- 풋터 -->
+<footer>
+  <p>© 2026 오후 테니스 수업 | 모든 권리 보유</p>
+</footer>
+
 <script>
+// FAQ 토글
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    q.closest('.faq-item').classList.toggle('active');
+  });
+});
+
+// 폼 제출
 document.getElementById("f").addEventListener("submit", async (e) => {
   e.preventDefault();
   const button = e.target.querySelector("button");
+
+  const lessonTypes = Array.from(document.querySelectorAll('input[name="lesson_type"]:checked'))
+    .map(cb => cb.value)
+    .join(',');
+
+  if (!lessonTypes) {
+    alert("수업 가능 형태를 최소 1개 이상 선택해주세요");
+    return;
+  }
+
   const body = {
     name: document.getElementById("name").value,
     contact: document.getElementById("contact").value,
+    experience: document.getElementById("experience").value,
+    region: document.getElementById("region").value,
     beginner: document.getElementById("beginner").value,
     certification: document.getElementById("certification").value,
     level: document.getElementById("level").value,
+    lesson_type: lessonTypes,
+    time_preference: document.getElementById("time_preference").value,
+    additional_qualification: document.getElementById("additional_qualification").value,
     notes: document.getElementById("notes").value
   };
+
   button.disabled = true;
   try {
     const res = await fetch("/api/submit", {
@@ -95,5 +496,6 @@ document.getElementById("f").addEventListener("submit", async (e) => {
   }
 });
 </script>
+
 </body>
 </html>
